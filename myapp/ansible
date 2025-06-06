@@ -1,57 +1,34 @@
-🛠️ DevOps Lab Setup with Ansible (WSL + Ubuntu)
-This guide helps you set up a DevOps lab using WSL, Ubuntu, and Ansible on a Windows system.
-
-📌 Lab Requirements
+Lab Requirements
 Windows 10/11 system
 
-Internet connection
-
-⚙️ Step-by-Step Setup
-✅ Step 1: Install WSL on Windows
+ 1: Install WSL on Windows
 Open PowerShell as Administrator.
 
 Run the command:
 ```bash
 wsl --install
-✅ Step 2: Install Ubuntu on WSL
+Step 2: Install Ubuntu on WSL
 Open Microsoft Store.
-
-Search for "Ubuntu App" (choose Ubuntu 22.04 LTS).
-Click Install.
-
-Open Ubuntu from the Start Menu.
-
-Create a UNIX username and password when asked.
-
-✅ Step 3: Update Ubuntu Packages
-Run this command in the Ubuntu terminal:
+Open Ubuntu
+ Step 3: Update Ubuntu
 ```bash
 sudo apt update -y
-✅ Step 4: Install Ansible
-Run this command in Ubuntu:
-
+ Step 4: Install Ansible
 ```bash
 sudo apt install ansible -y
-To check if Ansible was installed correctly, run:
-
 ```bash
 ansible --version
-🧪 Lab Execution: Configuration Management with Ansible
-✅ Step 5: Create a Working Directory
+Lab Execution: Configuration Management with Ansible
+ Step 5: Create a Working Directory
 Run the following commands:
 
 ```bash
 mkdir ansible-lab
 cd ansible-lab
 
-✅ Step 6: Create the Inventory File
-Use a text editor to create a file:
+ Step 6: Create the Inventory File
 
-bash
-Copy
-Edit
 vi inventory.ini
-Add this content:
 
 ```bash
 [local]
@@ -59,7 +36,7 @@ localhost ansible_connection=local
 
 Press Esc, type :wq, then press Enter to save and exit.
 
-✅ Step 7: Test Ansible Connectivity
+ Step 7: Test Ansible Connectivity
 Run this command:
 
 ```bash
@@ -72,16 +49,13 @@ localhost | SUCCESS => {
   "changed": false,
   "ping": "pong"
 }
-This means Ansible can talk to your local machine.
 
-✅ Step 8: Create a Basic Playbook
+Step 8: Create a Basic Playbook
 Create a playbook file:
-
 ```bash
 vi install_htop.yml
 
-Add the following:
-
+Add:
 ```bash
 ---
 - name: Install htop system monitor tool
@@ -97,7 +71,7 @@ Add the following:
 ```
 Save and exit (Esc, type :wq, press Enter).
 
-✅ Step 9: Run the Playbook
+Step 9: Run the Playbook
 Run:
 ```bash
 ansible-playbook -i inventory.ini install_htop.yml
@@ -106,10 +80,8 @@ Expected Output:
 ```markdown
 TASK [Install htop package] *****************************************
 changed: [localhost]
-✅ Step 10: Verify the Installation
+
+: Verify the Installation
 Run:
 
 nginx
-
-You should see the htop system monitor interface. Press q to quit.
-
