@@ -3,6 +3,55 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 # prog10
+1. Create Java Project
+
+Use Maven/Gradle with unit tests.
+
+
+2. Push to GitHub
+
+3. Create Azure DevOps Project
+
+Go to: https://aex.dev.azure.com
+
+Click New Project → Name it → Create
+
+
+4. Set Up Self-Hosted Agent
+
+Go to Project Settings > Agent Pools
+
+Add Pool → Name: MyLocalPool → Select Self-hosted
+
+Click pool → New agent
+
+Download ZIP → Extract (e.g., C:\azureagent)
+
+Configure:
+cd C:\azureagent
+config.cmd
+
+Enter:
+
+Azure DevOps URL
+
+PAT token (create under profile > PAT)
+
+Pool: MyLocalPool
+
+Name: AzureAgent
+
+
+Start agent:
+run.cmd
+
+5. Create Pipeline
+Go to Pipelines > New Pipeline
+
+Select GitHub repo → Starter pipeline
+
+
+6. Paste YAML
 trigger:
   - main
 
@@ -29,6 +78,17 @@ steps:
       ArtifactName: 'drop'
       publishLocation: 'Container'
     displayName: 'Publish Build Artifacts'
+
+7. Run Pipeline
+
+Click Run
+
+
+8. View Results
+
+Go to Pipelines > [Pipeline Name] > Runs
+
+Click latest → Check Tests tab
 
     
 trigger:
