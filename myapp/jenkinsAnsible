@@ -1,26 +1,14 @@
-🚀 Practical Exercise: Jenkins CI + Ansible CD for Maven Project
-🎯 Aim:
+ Practical Exercise: Jenkins CI + Ansible CD for Maven Project
+ Aim:
 To set up a Jenkins CI pipeline to build a Maven project and then use Ansible to deploy the .jar file (artifact) to your local machine.
 
-🔷 PART A: Jenkins CI Setup for Maven Project
-✅ Step 1: Create a Maven Project
-You can create the project using:
-
-nginx
-
-mvn archetype:generate
-or use an IDE like IntelliJ or Eclipse.
-
-Make sure it has a pom.xml file and source code.
-
+PART A: Jenkins CI Setup for Maven Projec
+Create a Maven Project
 Test it locally with:
 
 ```bash
-
 mvn compile test package
-✅ Step 2: Push Project to GitHub
-Run these commands in the project folder:
-
+Step 2: Push Project to GitHub
 ```bash
 
 git init
@@ -29,72 +17,51 @@ git commit -m "Initial commit"
 git branch -M main
 git remote add origin <GitHub_Repo_URL>
 git push -u origin main
-✅ Step 3: Install and Configure Jenkins
+
+Step 3: Install and Configure Jenkins
 Start Jenkins in your browser.
-
 Install these plugins:
-
 Maven Integration
-
 Git
-
 Ansible
 
 Go to Manage Jenkins → Global Tool Configuration and set paths for:
-
-Maven
-
+maven
 JDK
 
-✅ Step 4: Set Up Jenkins Job (CI)
+Step 4: Set Up Jenkins Job (CI)
 Go to Jenkins home → New Item
 
 Choose Freestyle Project, name it, and click OK.
-
 In Source Code Management, choose Git, and paste your GitHub repo URL.
-
 Under Build Triggers, enable:
-
-nginx
-
 Poll SCM → H/5 * * * *
 In the Build section:
-
 Add: Invoke top-level Maven targets
-
 Goal:
 
 ```bash
-
 clean compile test package
 Add Windows Batch Command to test the JAR:
-
 ```bash
 
 java -cp target/your-app-1.0-SNAPSHOT.jar com.multit.App
-✅ Step 5: Archive the JAR
+Step 5: Archive the JAR
 Go to Post-build Actions.
-
 Choose:
-
-nginx
-
 Archive the artifacts
 Enter:
-
-
 target/*.jar
-🔷 PART B: Use Ansible to Deploy the JAR (CD)
-✅ Step 1: Install Ansible in WSL (Ubuntu)
-Run in Ubuntu (WSL):
 
+PART B: Use Ansible to Deploy the JAR (CD)
+ Step 1: Install Ansible in WSL (Ubuntu)
+Run in Ubuntu (WSL):
 ```bash
 
 sudo apt update -y
 sudo apt install ansible -y
-✅ Step 2: Create Ansible Inventory and Playbook
+Step 2: Create Ansible Inventory and Playbook
 Create working directory:
-
 ```bash
 
 mkdir ansible-lab
@@ -116,7 +83,6 @@ Create deploy.yml playbook:
 
 vi deploy.yml
 Add:
-
 yaml
 
 ---
@@ -133,13 +99,13 @@ yaml
 
     - name: Run JAR file
       shell: nohup java -jar /home/your-username/ansible-lab/app.jar > app.log 2>&1 &
-✅ Step 3: Run the Playbook
+Step 3: Run the Playbook
 In Ubuntu, run:
 
 ```bash
 
 ansible-playbook -i inventory.ini deploy.yml
-✅ Step 4 (Optional): Automate Deployment in Jenkins
+Step 4 (Optional): Automate Deployment in Jenkins
 In the Jenkins job:
 
 Add Post-build Action → Add Windows Batch Command:
@@ -147,13 +113,13 @@ Add Post-build Action → Add Windows Batch Command:
 ```bash
 
 wsl ansible-playbook -i /home/your-user/ansible-lab/inventory.ini /home/your-user/ansible-lab/deploy.yml
-✅ Step 5: Check If App Is Running
+Step 5: Check If App Is Running
 Check log output:
 
 ```bash
 
 cat app.log
-⚠️ Step 6: Fix Manifest Error (If JAR won't run)
+ Step 6: Fix Manifest Error (If JAR won't run)
 Error:
 
 pgsql
@@ -161,7 +127,7 @@ pgsql
 no main manifest attribute, in your-app-1.0-SNAPSHOT.jar
 Reason: Main-Class is missing.
 
-✅ Step 7: Fix pom.xml for Manifest
+Step 7: Fix pom.xml for Manifest
 Edit your pom.xml, and add under <build>:
 
 ```xml
@@ -182,7 +148,7 @@ Edit your pom.xml, and add under <build>:
     </plugin>
   </plugins>
 </build>
-✅ Step 8: Push Fix to GitHub
+Step 8: Push Fix to GitHub
 Run:
 
 ```bash
@@ -192,7 +158,7 @@ git commit -m "Fix manifest error by adding Main-Class"
 git push -u origin main
 Jenkins will auto-build and redeploy the fixed JAR.
 
-✅ Step 9: Rerun and Check Output
+Step 9: Rerun and Check Output
 Run:
 
 ```bash
