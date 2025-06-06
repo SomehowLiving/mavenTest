@@ -2,7 +2,35 @@
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
+# prog10
+trigger:
+  - main
 
+pool:
+  name: 'MyLocalPool' #your agent
+
+steps:
+  - checkout: self
+    displayName: 'Checkout Code from GitHub'
+
+  - script: mvn clean test
+    displayName: 'Build and Run Unit Tests'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+      testResultsFormat: 'JUnit'
+      failTaskOnMissingResultsFile: true
+    displayName: 'Publish Maven Test Results'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'target'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+    displayName: 'Publish Build Artifacts'
+
+    
 trigger:
 - main
 
